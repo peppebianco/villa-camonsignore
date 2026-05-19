@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Villa Ca'Monsignore — Dimora esclusiva a Monopoli, Puglia. Piscina privata, giardino con ulivi, 4 camere. Prenota il tuo soggiorno.">
+    <title>Villa Ca'Monsignore — Monopoli, Puglia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --sabbia:        #F0E6D3;
+            --sabbia-mid:    #D9C5A8;
+            --sabbia-scuro:  #C8A882;
+            --oliva:         #6B7C4A;
+            --oliva-ch:      #8A9A5B;
+            --oliva-sc:      #4A5C35;
+            --terra:         #C17B5C;
+            --terra-ch:      #D4896A;
+            --terra-sc:      #9A5A40;
+            --crema:         #FAF7F0;
+            --bianco:        #FEFCF8;
+            --testo:         #3A3028;
+            --testo-mid:     #5A4E44;
+            --testo-ch:      #8A7B6F;
+            --ombra:         rgba(58,48,40,0.12);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Jost', sans-serif;
+            font-weight: 300;
+            color: var(--testo);
+            background: var(--crema);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            inset: 0 0 auto 0;
+            z-index: 1000;
+            padding: 1.6rem 4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all .4s ease;
+        }
+        nav.scrolled {
+            background: rgba(250,247,240,.96);
+            backdrop-filter: blur(10px);
+            padding: 1rem 4rem;
+            box-shadow: 0 1px 20px var(--ombra);
+        }
+        .nav-logo {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            letter-spacing: .1em;
+            color: #fff;
+            text-decoration: none;
+            transition: color .4s;
+        }
+        nav.scrolled .nav-logo { color: var(--testo); }
+
+        .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+        .nav-links a {
+            font-size: .75rem;
+            font-weight: 400;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.88);
+            text-decoration: none;
+            transition: color .25s;
+        }
+        nav.scrolled .nav-links a { color: var(--testo-mid); }
+        .nav-links a:hover { color: var(--terra) !important; }
+
+        .nav-cta {
+            background: var(--terra);
+            color: #fff !important;
+            padding: .55rem 1.4rem;
+        }
+        .nav-cta:hover { background: var(--terra-sc) !important; }
+
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+        .hamburger span { display: block; width: 24px; height: 1.5px; background: #fff; transition: .3s; }
+        nav.scrolled .hamburger span { background: var(--testo); }
+
+        .mob-menu {
+            display: none;
+            position: fixed; inset: 0;
+            background: var(--crema);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2.5rem;
+        }
+        .mob-menu.open { display: flex; }
+        .mob-menu a {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--testo);
+            text-decoration: none;
+        }
+        .mob-close { position: absolute; top: 2rem; right: 2rem; font-size: 1.6rem; cursor: pointer; }
+
+        /* ── HERO ── */
+        .hero {
+            height: 100vh;
+            min-height: 680px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-slide {
+            position: absolute; inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.6s ease;
+        }
+        .hero-slide.active { opacity: 1; }
+        .hero-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to bottom,
+                rgba(30,22,14,.38) 0%,
+                rgba(30,22,14,.18) 45%,
+                rgba(30,22,14,.60) 100%);
+        }
+        .hero-content {
+            position: relative; z-index: 2;
+            height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center;
+            padding: 2rem;
+        }
+        .hero-eye {
+            font-size: .72rem;
+            letter-spacing: .32em;
+            text-transform: uppercase;
+            color: var(--sabbia-mid);
+            margin-bottom: 1.4rem;
+        }
+        .hero-title {
+            font-size: clamp(3.4rem, 8vw, 6.8rem);
+            font-weight: 300;
+            color: #fff;
+            line-height: 1.04;
+            margin-bottom: .5rem;
+        }
+        .hero-title em { font-style: italic; color: var(--sabbia); }
+        .hero-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1rem, 2.2vw, 1.5rem);
+            font-style: italic;
+            color: rgba(255,255,255,.72);
+            margin-bottom: 3rem;
+        }
+        .hero-btns { display: flex; gap: 1.4rem; flex-wrap: wrap; justify-content: center; }
+
+        .btn {
+            display: inline-block;
+            padding: .85rem 2.4rem;
+            font-size: .75rem;
+            font-weight: 400;
+            letter-spacing: .2em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all .3s;
+            cursor: pointer;
+            border: none;
+            font-family: 'Jost', sans-serif;
+        }
+        .btn-primary { background: var(--terra); color: #fff; }
+        .btn-primary:hover { background: var(--terra-sc); }
+        .btn-outline { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.6); }
+        .btn-outline:hover { background: rgba(255,255,255,.14); border-color: #fff; }
+        .btn-dark { background: var(--testo); color: #fff; }
+        .btn-dark:hover { background: var(--oliva-sc); }
+        .btn-oliva { background: var(--oliva); color: #fff; }
+        .btn-oliva:hover { background: var(--oliva-sc); }
+
+        .hero-scroll {
+            position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+            color: rgba(255,255,255,.65);
+            display: flex; flex-direction: column; align-items: center; gap: .5rem;
+            font-size: .65rem; letter-spacing: .25em; text-transform: uppercase;
+        }
+        .scroll-line {
+            width: 1px; height: 38px;
+            background: linear-gradient(to bottom, rgba(255,255,255,.65), transparent);
+            animation: sdown 1.6s ease infinite;
+        }
+        @keyframes sdown {
+            0%   { transform: scaleY(0); transform-origin: top; }
+            50%  { transform: scaleY(1); transform-origin: top; }
+            51%  { transform: scaleY(1); transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+
+        /* ── SECTIONS BASE ── */
+        section { padding: 6rem 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+        .sec-label {
+            font-size: .68rem;
+            font-weight: 400;
+            letter-spacing: .3em;
+            text-transform: uppercase;
+            color: var(--oliva);
+            margin-bottom: 1rem;
+        }
+        .sec-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.9rem, 4vw, 3.1rem);
+            color: var(--testo);
+            line-height: 1.2;
+            margin-bottom: 1.4rem;
+        }
+        .sec-title em { color: var(--terra); font-style: italic; }
+        .divider { width: 48px; height: 1px; background: var(--sabbia-scuro); margin: 1.4rem 0; }
+        .divider.c { margin: 1.4rem auto; }
+
+        /* ── ABOUT ── */
+        .about { background: var(--bianco); }
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .about-text p {
+            font-size: .98rem;
+            line-height: 1.95;
+            color: var(--testo-mid);
+            margin-bottom: 1.4rem;
+        }
+        .about-stats {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid var(--sabbia-mid);
+        }
+        .stat-n {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.4rem;
+            font-weight: 300;
+            color: var(--terra);
+            display: block;
+        }
+        .stat-l {
+            font-size: .72rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--testo-ch);
+            margin-top: .3rem;
+        }
+        .about-img-wrap { position: relative; }
+        .about-img-wrap img { width: 100%; height: 580px; object-fit: cover; display: block; }
+        .about-accent {
+            position: absolute;
+            bottom: -2rem; left: -2rem;
+            width: 55%; height: 180px;
+            border: 2px solid var(--sabbia-mid);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .about-img-wrap img { position: relative; z-index: 1; }
+
+        /* ── GALLERY ── */
+        .gallery { background: var(--sabbia); }
+        .gallery-hd { text-align: center; margin-bottom: 3rem; }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: .8rem;
+        }
+        .gi { overflow: hidden; position: relative; }
+        .gi:nth-child(1)  { grid-column: 1/8;  grid-row: 1; }
+        .gi:nth-child(2)  { grid-column: 8/13; grid-row: 1; }
+        .gi:nth-child(3)  { grid-column: 1/5;  grid-row: 2; }
+        .gi:nth-child(4)  { grid-column: 5/9;  grid-row: 2; }
+        .gi:nth-child(5)  { grid-column: 9/13; grid-row: 2; }
+        .gi:nth-child(6)  { grid-column: 1/6;  grid-row: 3; }
+        .gi:nth-child(7)  { grid-column: 6/9;  grid-row: 3; }
+        .gi:nth-child(8)  { grid-column: 9/13; grid-row: 3; }
+        .gi:nth-child(9)  { grid-column: 1/5;  grid-row: 4; }
+        .gi:nth-child(10) { grid-column: 5/13; grid-row: 4; }
+        .gi img {
+            width: 100%; height: 100%; min-height: 210px;
+            object-fit: cover; display: block;
+            transition: transform .6s ease;
+        }
+        .gi:nth-child(1) img,
+        .gi:nth-child(10) img { min-height: 340px; }
+        .gi:hover img { transform: scale(1.04); }
+        .gi-ov {
+            position: absolute; inset: 0;
+            background: rgba(30,22,14,0);
+            transition: background .4s;
+        }
+        .gi:hover .gi-ov { background: rgba(30,22,14,.22); }
+
+        /* ── AMENITIES ── */
+        .amenities { background: var(--bianco); }
+        .amenities-hd { text-align: center; margin-bottom: 4rem; }
+        .am-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px,1fr));
+            gap: 2rem;
+        }
+        .am-item {
+            text-align: center;
+            padding: 2.5rem 1.5rem;
+            border: 1px solid var(--sabbia-mid);
+            transition: all .3s;
+        }
+        .am-item:hover {
+            border-color: var(--oliva);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px var(--ombra);
+        }
+        .am-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
+        .am-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.15rem;
+            color: var(--testo);
+            margin-bottom: .4rem;
+        }
+        .am-desc { font-size: .84rem; color: var(--testo-ch); line-height: 1.65; }
+
+        /* ── CALENDARIO ── */
+        .calendario { background: var(--crema); }
+        .cal-hd { text-align: center; margin-bottom: 3rem; }
+        .cal-hd p { font-size: .9rem; color: var(--testo-ch); margin-top: 1rem; }
+
+        .cal-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            max-width: 860px;
+            margin: 0 auto;
+        }
+        .cal-box {
+            background: var(--bianco);
+            border: 1px solid var(--sabbia-mid);
+            padding: 1.6rem;
+        }
+        .cal-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.4rem;
+        }
+        .cal-nav-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--testo-mid);
+            font-size: 1.1rem;
+            padding: .3rem .6rem;
+            transition: color .2s;
+            line-height: 1;
+        }
+        .cal-nav-btn:hover { color: var(--oliva); }
+        .cal-mname {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            color: var(--testo);
+        }
+        .cal-grid {
+            display: grid;
+            grid-template-columns: repeat(7,1fr);
+            gap: 2px;
+        }
+        .cal-dh {
+            text-align: center;
+            font-size: .62rem;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--testo-ch);
+            padding: .5rem 0;
+        }
+        .cal-d {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .84rem;
+            cursor: pointer;
+            transition: all .2s;
+            position: relative;
+            color: var(--testo);
+            border-radius: 2px;
+        }
+        .cal-d.empty { cursor: default; }
+        .cal-d.past  { color: var(--sabbia-scuro); cursor: not-allowed; }
+        .cal-d.booked {
+            background: var(--terra);
+            color: #fff;
+            cursor: not-allowed;
+            opacity: .68;
+            border-radius: 2px;
+        }
+        .cal-d.available:hover { background: var(--oliva-ch); color: #fff; }
+        .cal-d.sel-s, .cal-d.sel-e { background: var(--oliva); color: #fff; }
+        .cal-d.in-range { background: rgba(107,124,74,.15); color: var(--oliva-sc); }
+        .cal-d.today::after {
+            content: '';
+            position: absolute;
+            bottom: 3px; left: 50%;
+            transform: translateX(-50%);
+            width: 4px; height: 4px;
+            border-radius: 50%;
+            background: var(--terra);
+        }
+
+        .cal-legend {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .leg-item { display: flex; align-items: center; gap: .5rem; font-size: .8rem; color: var(--testo-mid); }
+        .leg-dot { width: 14px; height: 14px; border-radius: 2px; }
+        .leg-dot.disp { background: var(--sabbia-mid); border: 1px solid var(--sabbia-scuro); }
+        .leg-dot.pren { background: var(--terra); opacity: .68; }
+        .leg-dot.sel  { background: var(--oliva); }
+
+        .cal-info-box {
+            max-width: 860px;
+            margin: 2rem auto 0;
+            padding: 1.5rem 2rem;
+            background: var(--sabbia);
+            border-left: 3px solid var(--oliva);
+            text-align: center;
+        }
+        .cal-info-box p { font-size: .9rem; color: var(--testo-mid); margin-bottom: .3rem; }
+        .cal-info-box .sel-d {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            color: var(--oliva-sc);
+        }
+        .cal-proceed { text-align: center; margin-top: 2rem; }
+
+        /* ── BOOKING ── */
+        .booking { background: var(--testo); }
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: start;
+        }
+        .b-info .sec-label { color: var(--sabbia-mid); }
+        .b-info .sec-title { color: #fff; }
+        .b-info .sec-title em { color: var(--sabbia); }
+        .b-info p { color: rgba(255,255,255,.62); line-height: 1.9; margin-bottom: 1.4rem; font-size: .94rem; }
+        .b-contacts { margin-top: 2.5rem; display: flex; flex-direction: column; gap: 1rem; }
+        .b-contact { display: flex; align-items: center; gap: 1rem; color: rgba(255,255,255,.72); font-size: .9rem; }
+        .b-icon {
+            width: 36px; height: 36px;
+            border: 1px solid rgba(255,255,255,.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; flex-shrink: 0;
+        }
+        .b-policy {
+            margin-top: 2.5rem;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,.14);
+        }
+        .b-policy-title {
+            font-size: .68rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            color: var(--sabbia-mid);
+            margin-bottom: 1rem;
+        }
+        .b-policy ul { list-style: none; display: flex; flex-direction: column; gap: .5rem; }
+        .b-policy li { font-size: .84rem; color: rgba(255,255,255,.55); }
+        .b-policy li::before { content: '— '; color: var(--terra-ch); }
+
+        .b-form-wrap { background: var(--crema); padding: 3rem; }
+        .b-form-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            color: var(--testo);
+            margin-bottom: 2rem;
+        }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+        .fg { display: flex; flex-direction: column; gap: .4rem; }
+        .fg.full { grid-column: 1/-1; }
+        .fg label {
+            font-size: .68rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            color: var(--testo-ch);
+        }
+        .fg input, .fg select, .fg textarea {
+            background: var(--bianco);
+            border: 1px solid var(--sabbia-mid);
+            padding: .78rem 1rem;
+            font-family: 'Jost', sans-serif;
+            font-size: .94rem;
+            font-weight: 300;
+            color: var(--testo);
+            outline: none;
+            transition: border-color .2s;
+            width: 100%;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .fg input:focus, .fg select:focus, .fg textarea:focus { border-color: var(--oliva); }
+        .fg textarea { resize: vertical; min-height: 100px; }
+        .fg select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%238A7B6F'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            padding-right: 2.5rem;
+        }
+        .form-submit { margin-top: 1.5rem; }
+        .form-submit .btn { width: 100%; text-align: center; }
+        .form-note { margin-top: 1rem; font-size: .74rem; color: var(--testo-ch); text-align: center; }
+        .form-note a { color: var(--oliva); text-decoration: none; }
+
+        .form-success { display: none; text-align: center; padding: 2rem; }
+        .form-success.show { display: block; }
+        .succ-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .succ-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            color: var(--oliva);
+            margin-bottom: 1rem;
+        }
+        .succ-text { color: var(--testo-mid); line-height: 1.85; font-size: .94rem; }
+
+        /* ── LOCATION ── */
+        .location { background: var(--sabbia); }
+        .loc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+        .loc-map { height: 440px; overflow: hidden; }
+        .loc-map iframe { width: 100%; height: 100%; border: none; display: block; }
+        .loc-text p { color: var(--testo-mid); line-height: 1.9; margin-bottom: 1.4rem; font-size: .95rem; }
+        .loc-hl {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .loc-h {
+            padding: 1.2rem;
+            background: var(--bianco);
+            border-left: 3px solid var(--oliva);
+        }
+        .loc-dist {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: var(--terra);
+        }
+        .loc-place { font-size: .78rem; color: var(--testo-ch); letter-spacing: .04em; }
+
+        /* ── FOOTER ── */
+        footer { background: var(--testo); padding: 4rem 0 2rem; }
+        .foot-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            padding-bottom: 3rem;
+            border-bottom: 1px solid rgba(255,255,255,.1);
+            margin-bottom: 2rem;
+        }
+        .foot-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .foot-desc { font-size: .84rem; color: rgba(255,255,255,.45); line-height: 1.8; max-width: 300px; }
+        .foot-h { font-size: .68rem; letter-spacing: .2em; text-transform: uppercase; color: var(--sabbia-mid); margin-bottom: 1.4rem; }
+        .foot-links { list-style: none; display: flex; flex-direction: column; gap: .75rem; }
+        .foot-links a { color: rgba(255,255,255,.45); text-decoration: none; font-size: .88rem; transition: color .2s; }
+        .foot-links a:hover { color: var(--sabbia); }
+        .foot-bottom {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: .78rem; color: rgba(255,255,255,.28);
+        }
+
+        /* ── FADE-UP ── */
+        .fu { opacity: 0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+        .fu.vis { opacity: 1; transform: translateY(0); }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            nav { padding: 1.5rem 2rem; }
+            nav.scrolled { padding: 1rem 2rem; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .about-grid, .booking-grid, .loc-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .cal-wrap { grid-template-columns: 1fr; max-width: 380px; }
+            .foot-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            section { padding: 4rem 0; }
+            .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; }
+            .gi { grid-column: auto !important; grid-row: auto !important; }
+            .gi img { min-height: 180px !important; }
+            .about-stats { gap: 1rem; }
+            .form-grid { grid-template-columns: 1fr; }
+            .fg.full { grid-column: 1; }
+            .b-form-wrap { padding: 2rem; }
+            .loc-hl { grid-template-columns: 1fr; }
+            .foot-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+            .foot-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            .booking-grid { gap: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <a href="#" class="nav-logo">Villa Ca'Monsignore</a>
+    <ul class="nav-links">
+        <li><a href="#about">La Villa</a></li>
+        <li><a href="#gallery">Galleria</a></li>
+        <li><a href="#amenities">Comfort</a></li>
+        <li><a href="#calendar">Disponibilità</a></li>
+        <li><a href="#location">Dove Siamo</a></li>
+        <li><a href="#booking" class="nav-cta">Prenota</a></li>
+    </ul>
+    <div class="hamburger" id="hamburger">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mob-menu" id="mobMenu">
+    <span class="mob-close" id="mobClose">✕</span>
+    <a href="#about" class="mob-link">La Villa</a>
+    <a href="#gallery" class="mob-link">Galleria</a>
+    <a href="#amenities" class="mob-link">Comfort</a>
+    <a href="#calendar" class="mob-link">Disponibilità</a>
+    <a href="#location" class="mob-link">Dove Siamo</a>
+    <a href="#booking" class="mob-link">Prenota</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+    <div id="heroSlides">
+        <div class="hero-slide active" style="background-image:url('foto1.webp')"></div>
+        <div class="hero-slide" style="background-image:url('foto3.webp')"></div>
+        <div class="hero-slide" style="background-image:url('foto5.webp')"></div>
+        <div class="hero-slide" style="background-image:url('foto10.webp')"></div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <p class="hero-eye">Monopoli &middot; Puglia &middot; Italia</p>
+        <h1 class="hero-title">Villa <em>Ca'Monsignore</em></h1>
+        <p class="hero-sub">Un rifugio esclusivo tra ulivi e mare</p>
+        <div class="hero-btns">
+            <a href="#about" class="btn btn-outline">Scopri la Villa</a>
+            <a href="#booking" class="btn btn-primary">Prenota il Soggiorno</a>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <span>Scorri</span>
+        <div class="scroll-line"></div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-text fu">
+                <p class="sec-label">La Nostra Dimora</p>
+                <h2 class="sec-title">Un'oasi di <em>eleganza</em><br>in terra di Puglia</h2>
+                <div class="divider"></div>
+                <p>Villa Ca'Monsignore è una dimora d'eccezione immersa nell'entroterra di Monopoli, a pochi minuti dalla costa adriatica. Circondata da ulivi secolari e giardini profumati, offre un'esperienza autentica di quella bellezza lenta e profonda che caratterizza la Puglia più vera.</p>
+                <p>Con i suoi spazi ampi e luminosi, la piscina privata e i terrazzi che abbracciano il paesaggio, Ca'Monsignore è il luogo ideale per ritiri in famiglia, celebrazioni esclusive e soggiorni indimenticabili in ogni stagione.</p>
+                <p>Ogni dettaglio è stato curato per unire il fascino delle dimore storiche pugliesi al comfort più contemporaneo: un'armonia unica tra tradizione e lusso discreto.</p>
+                <div class="about-stats">
+                    <div style="text-align:center">
+                        <span class="stat-n">4</span>
+                        <span class="stat-l">Camere da Letto</span>
+                    </div>
+                    <div style="text-align:center">
+                        <span class="stat-n">8</span>
+                        <span class="stat-l">Ospiti Max</span>
+                    </div>
+                    <div style="text-align:center">
+                        <span class="stat-n">5 km</span>
+                        <span class="stat-l">dal Mare</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-img-wrap fu">
+                <img src="foto2.avif" alt="Villa Ca'Monsignore">
+                <div class="about-accent"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+    <div class="container">
+        <div class="gallery-hd fu">
+            <p class="sec-label">Galleria</p>
+            <h2 class="sec-title">Immagini di <em>Ca'Monsignore</em></h2>
+            <div class="divider c"></div>
+        </div>
+        <div class="gallery-grid">
+            <div class="gi fu"><img src="foto1.webp" alt="Villa esterna"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto2.avif" alt="Giardino"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto3.webp" alt="Interni"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto4.avif" alt="Camera da letto"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto5.webp" alt="Terrazza"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto6.avif" alt="Soggiorno"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto7.avif" alt="Cucina"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto8.avif" alt="Bagno"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto9.avif" alt="Dettaglio"><div class="gi-ov"></div></div>
+            <div class="gi fu"><img src="foto10.webp" alt="Vista tramonto"><div class="gi-ov"></div></div>
+        </div>
+    </div>
+</section>
+
+<!-- AMENITIES -->
+<section class="amenities" id="amenities">
+    <div class="container">
+        <div class="amenities-hd fu">
+            <p class="sec-label">I Nostri Comfort</p>
+            <h2 class="sec-title">Tutto ciò che <em>desiderate</em></h2>
+            <div class="divider c"></div>
+        </div>
+        <div class="am-grid">
+            <div class="am-item fu">
+                <span class="am-icon">🏊</span>
+                <p class="am-name">Piscina Privata</p>
+                <p class="am-desc">Piscina a sfioro con area solarium, lettini e vista panoramica sul paesaggio pugliese</p>
+            </div>
+            <div class="am-item fu">
+                <span class="am-icon">🛏</span>
+                <p class="am-name">4 Camere Esclusive</p>
+                <p class="am-desc">Camere arredate con materiali pregiati, ciascuna con bagno en-suite e vista giardino</p>
+            </div>
+            <div class="am-item fu">
+                <span class="am-icon">🍽</span>
+                <p class="am-name">Cucina Attrezzata</p>
+                <p class="am-desc">Cucina professionale completa, ideale per i sapori della tradizione pugliese</p>
+            </div>
+            <div class="am-item fu">
+                <span class="am-icon">🌿</span>
+                <p class="am-name">Giardino Privato</p>
+                <p class="am-desc">Oltre 3.000 mq con ulivi millenniari, lavanda e profumi del Mediterraneo</p>
+            </div>
+            <div class="am-item fu">
+                <span class="am-icon">🔥</span>
+                <p class="am-name">BBQ & Pergola</p>
+                <p class="am-desc">Area barbecue esterna con pergola ombreggiata e cucina all'aperto per cene sotto le stelle</p>
+            </div>
+            <div class="am-item fu">
+                <span class="am-icon">❄️</span>
+                <p class="am-name">Clima & Riscaldamento</p>
+                <p class="am-desc">Climatizzazione in ogni ambiente per il massimo comfort in ogni stagione dell'anno</p>
+            </div>
+            <div class="am-item fu">
+                <span class="am-icon">📶</span>
+                <p class="am-name">Wi-Fi Ultra Veloce</p>
+                <p class="am-desc">Connessione in fibra ad alta velocità in tutta la villa e nel giardino</p>
+            </div>
+            <div class="am-item fu">
+                <span class="am-icon">🚗</span>
+                <p class="am-name">Parcheggio Privato</p>
+                <p class="am-desc">Ampio parcheggio recintato all'interno della proprietà per più veicoli</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CALENDARIO -->
+<section class="calendario" id="calendar">
+    <div class="container">
+        <div class="cal-hd fu">
+            <p class="sec-label">Disponibilità</p>
+            <h2 class="sec-title">Scegli le tue <em>date</em></h2>
+            <div class="divider c"></div>
+            <p>Seleziona check-in e check-out per verificare la disponibilità</p>
+        </div>
+
+        <div class="cal-wrap">
+            <div class="cal-box" id="calLeft"></div>
+            <div class="cal-box" id="calRight"></div>
+        </div>
+
+        <div class="cal-legend">
+            <div class="leg-item"><div class="leg-dot disp"></div><span>Disponibile</span></div>
+            <div class="leg-item"><div class="leg-dot pren"></div><span>Prenotato</span></div>
+            <div class="leg-item"><div class="leg-dot sel"></div><span>Periodo selezionato</span></div>
+        </div>
+
+        <div class="cal-info-box" id="calInfo">
+            <p>Clicca su una data per selezionare il check-in, poi seleziona il check-out.</p>
+        </div>
+
+        <div class="cal-proceed">
+            <a href="#booking" class="btn btn-oliva" id="proceedBtn" style="display:none">
+                Procedi con la Prenotazione &rarr;
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="booking">
+    <div class="container">
+        <div class="booking-grid">
+            <div class="b-info fu">
+                <p class="sec-label">Prenota il Tuo Soggiorno</p>
+                <h2 class="sec-title">Vivi l'esperienza<br>di <em>Ca'Monsignore</em></h2>
+                <div class="divider" style="background:rgba(255,255,255,.2)"></div>
+                <p>Compila il modulo per richiedere la prenotazione. Ti risponderemo entro 24 ore con la conferma della disponibilità e le istruzioni per il pagamento della caparra.</p>
+                <p>Per una risposta immediata puoi contattarci direttamente via WhatsApp.</p>
+                <div class="b-contacts">
+                    <div class="b-contact"><div class="b-icon">📞</div><span>+39 080 000 0000</span></div>
+                    <div class="b-contact"><div class="b-icon">✉</div><span>info@villacamonsignore.it</span></div>
+                    <div class="b-contact"><div class="b-icon">💬</div><span>WhatsApp: +39 320 000 0000</span></div>
+                    <div class="b-contact"><div class="b-icon">📍</div><span>Contrada Torrepietra, Monopoli (BA)</span></div>
+                </div>
+                <div class="b-policy">
+                    <p class="b-policy-title">Politica di Prenotazione</p>
+                    <ul>
+                        <li>Caparra del 30% alla conferma</li>
+                        <li>Soggiorno minimo 3 notti</li>
+                        <li>Check-in ore 15:00 — Check-out ore 10:00</li>
+                        <li>Animali non ammessi</li>
+                        <li>No feste o eventi non autorizzati</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="fu">
+                <div class="b-form-wrap">
+                    <div id="formWrap">
+                        <p class="b-form-title">Richiedi Prenotazione</p>
+                        <form id="bookForm">
+                            <div class="form-grid">
+                                <div class="fg">
+                                    <label>Nome *</label>
+                                    <input type="text" name="nome" placeholder="Mario" required>
+                                </div>
+                                <div class="fg">
+                                    <label>Cognome *</label>
+                                    <input type="text" name="cognome" placeholder="Rossi" required>
+                                </div>
+                                <div class="fg">
+                                    <label>Email *</label>
+                                    <input type="email" name="email" placeholder="mario@email.com" required>
+                                </div>
+                                <div class="fg">
+                                    <label>Telefono / WhatsApp *</label>
+                                    <input type="tel" name="telefono" placeholder="+39 320 000 0000" required>
+                                </div>
+                                <div class="fg">
+                                    <label>Data Check-in *</label>
+                                    <input type="date" name="checkin" id="fCheckin" required>
+                                </div>
+                                <div class="fg">
+                                    <label>Data Check-out *</label>
+                                    <input type="date" name="checkout" id="fCheckout" required>
+                                </div>
+                                <div class="fg">
+                                    <label>Numero Ospiti *</label>
+                                    <select name="ospiti" required>
+                                        <option value="">Seleziona</option>
+                                        <option>1 ospite</option>
+                                        <option>2 ospiti</option>
+                                        <option>3 ospiti</option>
+                                        <option>4 ospiti</option>
+                                        <option>5 ospiti</option>
+                                        <option>6 ospiti</option>
+                                        <option>7 ospiti</option>
+                                        <option>8 ospiti</option>
+                                    </select>
+                                </div>
+                                <div class="fg">
+                                    <label>Nazione</label>
+                                    <input type="text" name="nazione" placeholder="Italia">
+                                </div>
+                                <div class="fg full">
+                                    <label>Note e Richieste Speciali</label>
+                                    <textarea name="note" placeholder="Occasioni speciali, allergie, richieste particolari..."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-submit">
+                                <button type="submit" class="btn btn-primary">Invia Richiesta di Prenotazione</button>
+                            </div>
+                            <p class="form-note">Inviando il modulo accetti la nostra <a href="#">Privacy Policy</a></p>
+                        </form>
+                    </div>
+                    <div class="form-success" id="formSuccess">
+                        <div class="succ-icon">✓</div>
+                        <p class="succ-title">Richiesta Inviata!</p>
+                        <p class="succ-text">Grazie per aver scelto Villa Ca'Monsignore.<br>Ti risponderemo entro 24 ore per confermare la disponibilità.<br><br>Per una risposta immediata scrivici su WhatsApp.</p>
+                        <a href="https://wa.me/393200000000" class="btn btn-dark" style="margin-top:2rem;display:inline-block">Contatta su WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location" id="location">
+    <div class="container">
+        <div class="loc-grid">
+            <div class="fu">
+                <div class="loc-map">
+                    <iframe
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=17.27%2C40.92%2C17.35%2C40.99&layer=mapnik&marker=40.9558%2C17.3009"
+                        allowfullscreen
+                        loading="lazy"
+                        title="Posizione Villa Ca'Monsignore">
+                    </iframe>
+                </div>
+            </div>
+            <div class="loc-text fu">
+                <p class="sec-label">Come Raggiungerci</p>
+                <h2 class="sec-title">Nel cuore della <em>Puglia</em></h2>
+                <div class="divider"></div>
+                <p>Villa Ca'Monsignore si trova in una posizione privilegiata nell'entroterra di Monopoli, una delle gemme più preziose della costa adriatica pugliese. Facilmente raggiungibile dall'aeroporto di Bari in soli 40 minuti.</p>
+                <p>Il centro storico di Monopoli, con il suo porto antico, i vicoli bianchi e i ristoranti di pesce fresco, è a soli 10 minuti di auto.</p>
+                <div class="loc-hl">
+                    <div class="loc-h">
+                        <p class="loc-dist">5 km</p>
+                        <p class="loc-place">dal mare e dalle spiagge</p>
+                    </div>
+                    <div class="loc-h">
+                        <p class="loc-dist">10 km</p>
+                        <p class="loc-place">dal centro di Monopoli</p>
+                    </div>
+                    <div class="loc-h">
+                        <p class="loc-dist">40 km</p>
+                        <p class="loc-place">dall'aeroporto di Bari</p>
+                    </div>
+                    <div class="loc-h">
+                        <p class="loc-dist">25 km</p>
+                        <p class="loc-place">da Alberobello (Trulli)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="foot-grid">
+            <div>
+                <p class="foot-name">Villa Ca'Monsignore</p>
+                <p class="foot-desc">Una dimora esclusiva immersa nel paesaggio pugliese, tra ulivi millenniari e il profumo del Mediterraneo. Il tuo rifugio di lusso a Monopoli, Puglia.</p>
+            </div>
+            <div>
+                <p class="foot-h">Navigazione</p>
+                <ul class="foot-links">
+                    <li><a href="#about">La Villa</a></li>
+                    <li><a href="#gallery">Galleria</a></li>
+                    <li><a href="#amenities">Comfort</a></li>
+                    <li><a href="#calendar">Disponibilità</a></li>
+                    <li><a href="#location">Dove Siamo</a></li>
+                    <li><a href="#booking">Prenota</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="foot-h">Contatti</p>
+                <ul class="foot-links">
+                    <li><a href="tel:+39080000000">+39 080 000 0000</a></li>
+                    <li><a href="mailto:info@villacamonsignore.it">info@villacamonsignore.it</a></li>
+                    <li><a href="https://wa.me/393200000000">WhatsApp</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="foot-bottom">
+            <p>&copy; 2026 Villa Ca'Monsignore &mdash; Monopoli, Puglia. Tutti i diritti riservati.</p>
+            <p>Privacy Policy &nbsp;|&nbsp; Cookie Policy</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ── NAV ── */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 80);
+});
+
+/* ── MOBILE MENU ── */
+const mobMenu = document.getElementById('mobMenu');
+document.getElementById('hamburger').onclick = () => mobMenu.classList.add('open');
+document.getElementById('mobClose').onclick  = () => mobMenu.classList.remove('open');
+document.querySelectorAll('.mob-link').forEach(a => {
+    a.onclick = () => mobMenu.classList.remove('open');
+});
+
+/* ── HERO SLIDESHOW ── */
+let slide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+setInterval(() => {
+    slides[slide].classList.remove('active');
+    slide = (slide + 1) % slides.length;
+    slides[slide].classList.add('active');
+}, 5000);
+
+/* ── SCROLL ANIMATION ── */
+const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); } });
+}, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.fu').forEach(el => io.observe(el));
+
+/* ── CALENDAR ── */
+const IT_MONTHS = ['Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno',
+                   'Luglio','Agosto','Settembre','Ottobre','Novembre','Dicembre'];
+const IT_DAYS   = ['Lu','Ma','Me','Gi','Ve','Sa','Do'];
+
+/* periodi prenotati */
+const BOOKED = [
+    ['2026-06-01','2026-06-08'],
+    ['2026-06-20','2026-06-28'],
+    ['2026-07-10','2026-07-26'],
+    ['2026-08-01','2026-08-31'],
+    ['2026-09-05','2026-09-13'],
+    ['2026-09-20','2026-09-27'],
+    ['2026-10-10','2026-10-18'],
+];
+
+let calYear, calMonth, chkIn = null, chkOut = null;
+
+function pd(s) { const [y,m,d] = s.split('-').map(Number); return new Date(y,m-1,d); }
+function fd(dt) { return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`; }
+function fDisp(dt) { return `${dt.getDate()} ${IT_MONTHS[dt.getMonth()]} ${dt.getFullYear()}`; }
+
+function isBooked(dt) {
+    return BOOKED.some(([s,e]) => dt >= pd(s) && dt <= pd(e));
+}
+function isPast(dt) {
+    const t = new Date(); t.setHours(0,0,0,0); return dt < t;
+}
+function inRange(dt) {
+    return chkIn && chkOut && dt > chkIn && dt < chkOut;
+}
+
+function renderMonth(id, y, m, showPrev) {
+    const first = new Date(y, m, 1);
+    const last  = new Date(y, m+1, 0);
+    const today = new Date(); today.setHours(0,0,0,0);
+    let dow = first.getDay(); dow = dow === 0 ? 6 : dow - 1;
+
+    let h = `<div class="cal-top">
+        <button class="cal-nav-btn" onclick="shiftMonth(-1)" style="visibility:${showPrev?'visible':'hidden'}">&#8592;</button>
+        <span class="cal-mname">${IT_MONTHS[m]} ${y}</span>
+        <button class="cal-nav-btn" onclick="shiftMonth(1)" style="visibility:${showPrev?'hidden':'visible'}">&#8594;</button>
+    </div><div class="cal-grid">`;
+
+    IT_DAYS.forEach(d => { h += `<div class="cal-dh">${d}</div>`; });
+    for (let i = 0; i < dow; i++) h += '<div class="cal-d empty"></div>';
+
+    for (let d = 1; d <= last.getDate(); d++) {
+        const dt = new Date(y, m, d);
+        const s  = fd(dt);
+        let cls  = 'cal-d';
+        let clickable = false;
+
+        if (isPast(dt))       cls += ' past';
+        else if (isBooked(dt)) cls += ' booked';
+        else { cls += ' available'; clickable = true; }
+
+        if (chkIn  && dt.getTime() === chkIn.getTime())  cls += ' sel-s';
+        if (chkOut && dt.getTime() === chkOut.getTime())  cls += ' sel-e';
+        if (inRange(dt)) cls += ' in-range';
+        if (dt.getTime() === today.getTime()) cls += ' today';
+
+        h += `<div class="${cls}"${clickable ? ` onclick="pick('${s}')"` : ''}>${d}</div>`;
+    }
+    h += '</div>';
+    document.getElementById(id).innerHTML = h;
+}
+
+function renderCal() {
+    renderMonth('calLeft',  calYear, calMonth, true);
+    const ny = calMonth === 11 ? calYear + 1 : calYear;
+    const nm = calMonth === 11 ? 0 : calMonth + 1;
+    renderMonth('calRight', ny, nm, false);
+}
+
+function shiftMonth(dir) {
+    calMonth += dir;
+    if (calMonth > 11) { calMonth = 0; calYear++; }
+    if (calMonth < 0)  { calMonth = 11; calYear--; }
+    renderCal();
+}
+
+function pick(s) {
+    const dt = pd(s);
+    if (!chkIn || (chkIn && chkOut)) {
+        chkIn = dt; chkOut = null;
+    } else if (dt <= chkIn) {
+        chkIn = dt; chkOut = null;
+    } else {
+        /* check no booked dates in range */
+        const test = new Date(chkIn); test.setDate(test.getDate()+1);
+        let blocked = false;
+        while (test < dt) { if (isBooked(test)) { blocked = true; break; } test.setDate(test.getDate()+1); }
+        if (blocked) { chkIn = dt; chkOut = null; }
+        else chkOut = dt;
+    }
+    renderCal();
+    updateInfo();
+}
+
+function updateInfo() {
+    const box = document.getElementById('calInfo');
+    const btn = document.getElementById('proceedBtn');
+    if (!chkIn) {
+        box.innerHTML = '<p>Clicca su una data per selezionare il check-in, poi seleziona il check-out.</p>';
+        btn.style.display = 'none';
+    } else if (!chkOut) {
+        box.innerHTML = `<p>Check-in: <span class="sel-d">${fDisp(chkIn)}</span></p><p>Seleziona ora il check-out</p>`;
+        btn.style.display = 'none';
+    } else {
+        const notti = Math.round((chkOut - chkIn) / 86400000);
+        box.innerHTML = `
+            <p class="sel-d">${fDisp(chkIn)} &rarr; ${fDisp(chkOut)}</p>
+            <p>${notti} nott${notti === 1 ? 'e' : 'i'} &nbsp;&bull;&nbsp; Disponibile</p>`;
+        document.getElementById('fCheckin').value  = fd(chkIn);
+        document.getElementById('fCheckout').value = fd(chkOut);
+        btn.style.display = 'inline-block';
+    }
+}
+
+(function initCal() {
+    const now = new Date();
+    calYear  = now.getFullYear();
+    calMonth = now.getMonth();
+    renderCal();
+})();
+
+/* ── BOOKING FORM ── */
+document.getElementById('bookForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = this.querySelector('button[type=submit]');
+    btn.textContent = 'Invio in corso…';
+    btn.disabled = true;
+    setTimeout(() => {
+        document.getElementById('formWrap').style.display = 'none';
+        document.getElementById('formSuccess').classList.add('show');
+    }, 1400);
+});
+</script>
+
+</body>
+</html>
