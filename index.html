@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="foto1.webp">
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -124,12 +125,49 @@
         }
         .hero-slide {
             position: absolute; inset: 0;
-            background-size: cover;
-            background-position: center;
             opacity: 0;
-            transition: opacity 1.6s ease;
+            transition: opacity 2s cubic-bezier(.4,0,.2,1);
+            overflow: hidden;
         }
         .hero-slide.active { opacity: 1; }
+
+        /* img reali: qualità superiore rispetto a background-image */
+        .hero-slide img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        /* Ken Burns: zoom-out lento quando la slide è attiva */
+        .hero-slide.active img {
+            animation: kenburns 9s ease-out forwards;
+        }
+        @keyframes kenburns {
+            from { transform: scale(1.10); }
+            to   { transform: scale(1.00); }
+        }
+
+        /* indicatori slide */
+        .slide-dots {
+            position: absolute;
+            bottom: 5.5rem; left: 50%;
+            transform: translateX(-50%);
+            display: flex; gap: .6rem;
+            z-index: 3;
+        }
+        .slide-dot {
+            width: 28px; height: 2px;
+            background: rgba(255,255,255,.35);
+            cursor: pointer;
+            transition: background .4s, width .4s;
+        }
+        .slide-dot.active {
+            background: rgba(255,255,255,.9);
+            width: 48px;
+        }
         .hero-overlay {
             position: absolute; inset: 0;
             background: linear-gradient(to bottom,
@@ -664,11 +702,20 @@
 <!-- HERO -->
 <section class="hero">
     <div id="heroSlides">
-        <div class="hero-slide active" style="background-image:url('foto1.webp')"></div>
-        <div class="hero-slide" style="background-image:url('foto3.webp')"></div>
-        <div class="hero-slide" style="background-image:url('foto5.webp')"></div>
-        <div class="hero-slide" style="background-image:url('foto10.webp')"></div>
+        <div class="hero-slide active">
+            <img src="foto1.webp" alt="Villa Ca'Monsignore" fetchpriority="high" decoding="sync">
+        </div>
+        <div class="hero-slide">
+            <img src="foto3.webp" alt="Villa Ca'Monsignore — Piscina" decoding="async" loading="lazy">
+        </div>
+        <div class="hero-slide">
+            <img src="foto5.webp" alt="Villa Ca'Monsignore — Giardino" decoding="async" loading="lazy">
+        </div>
+        <div class="hero-slide">
+            <img src="foto10.webp" alt="Villa Ca'Monsignore — Tramonto" decoding="async" loading="lazy">
+        </div>
     </div>
+    <div class="slide-dots" id="slideDots"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
         <p class="hero-eye">Monopoli &middot; Puglia &middot; Italia</p>
@@ -1025,11 +1072,31 @@ document.querySelectorAll('.mob-link').forEach(a => {
 /* ── HERO SLIDESHOW ── */
 let slide = 0;
 const slides = document.querySelectorAll('.hero-slide');
-setInterval(() => {
+const dotsWrap = document.getElementById('slideDots');
+
+/* crea i dot */
+slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goSlide(i);
+    dotsWrap.appendChild(d);
+});
+
+function goSlide(to) {
+    const dots = dotsWrap.querySelectorAll('.slide-dot');
     slides[slide].classList.remove('active');
-    slide = (slide + 1) % slides.length;
+    dots[slide].classList.remove('active');
+    slide = to;
+    /* riavvia animazione Ken Burns */
+    const img = slides[slide].querySelector('img');
+    img.style.animation = 'none';
+    img.offsetHeight; /* reflow */
+    img.style.animation = '';
     slides[slide].classList.add('active');
-}, 5000);
+    dots[slide].classList.add('active');
+}
+
+setInterval(() => goSlide((slide + 1) % slides.length), 6000);
 
 /* ── SCROLL ANIMATION ── */
 const io = new IntersectionObserver(entries => {
